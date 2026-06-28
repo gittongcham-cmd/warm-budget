@@ -71,6 +71,23 @@ export function getStatusTone(status: BudgetStatus) {
   return tones[status];
 }
 
+export function getBudgetBuddyMood(rate: number) {
+  if (rate >= 100) return "alert";
+  if (rate >= 90) return "worried";
+  if (rate >= 70) return "calm";
+  return "happy";
+}
+
+export function getBudgetBuddyMessage(rate: number, remainingBudget: number) {
+  if (rate <= 0) return "예산을 잡아두면 제가 옆에서 같이 챙겨드릴게요.";
+  if (remainingBudget < 0) return "목표를 살짝 넘겼어요. 괜찮아요, 다음 달 계획에 반영해봐요.";
+  if (rate < 50) return "아직 여유가 꽤 남았어요. 오늘 흐름 아주 좋아요.";
+  if (rate < 70) return "절반을 지나가고 있어요. 지금처럼만 천천히 가봐요.";
+  if (rate < 90) return "예산이 꽤 줄었어요. 필요한 지출 위주로 챙겨볼까요?";
+  if (rate < 100) return "예산이 얼마 안 남았어요. 잠깐 절약 모드로 쉬어가요.";
+  return "이번 달 목표를 넘겼어요. 그래도 기록한 것만으로도 이미 잘하고 있어요.";
+}
+
 export function getCategoryCoachMessage({
   label,
   spent,

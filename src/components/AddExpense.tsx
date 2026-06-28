@@ -4,6 +4,7 @@ import { Save } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { categories, paymentMethods } from "@/data/mockData";
 import { CategoryKey, PaymentMethod, Transaction } from "@/types/budget";
+import { BudgetBuddy } from "@/components/BudgetBuddy";
 import { Card, Field, Input, Label, PrimaryButton, Select, Textarea } from "@/components/ui";
 import { formatMoneyInput, parseMoneyInput } from "@/utils/budget";
 
@@ -103,7 +104,7 @@ export function AddExpense({
             <Save size={18} />
             저장
           </PrimaryButton>
-          {saved ? <p className="text-center text-sm font-bold text-moss">저장됐어요. 홈과 그래프에 바로 반영됩니다.</p> : null}
+          {saved ? <BudgetBuddy compact mood="happy" message="기록했어요. 오늘도 살림 노트 잘 챙겼네요." /> : null}
         </form>
       </Card>
     </div>

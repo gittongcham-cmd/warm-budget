@@ -4,7 +4,8 @@ import { ArrowDownRight, CalendarDays, PiggyBank, WalletCards } from "lucide-rea
 import type { ReactNode } from "react";
 import { categories, paymentMethods } from "@/data/mockData";
 import { BudgetData } from "@/types/budget";
-import { calculateBudget, formatCurrency, getCategoryCoachMessage, getDateFromMonthKey, getMonthLabel, getRemainingDays, getStatusTone } from "@/utils/budget";
+import { calculateBudget, formatCurrency, getBudgetBuddyMessage, getBudgetBuddyMood, getCategoryCoachMessage, getDateFromMonthKey, getMonthLabel, getRemainingDays, getStatusTone } from "@/utils/budget";
+import { BudgetBuddy } from "@/components/BudgetBuddy";
 import { Card, ProgressBar } from "@/components/ui";
 import { SpendingDonutChart, TopCategoryBarChart } from "@/components/Charts";
 
@@ -36,6 +37,13 @@ export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: stri
           </div>
           <ProgressBar value={summary.usageRate} color="bg-white" />
         </div>
+      </div>
+
+      <div className="px-4">
+        <BudgetBuddy
+          mood={getBudgetBuddyMood(summary.usageRate)}
+          message={getBudgetBuddyMessage(summary.usageRate, summary.remainingBudget)}
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-3 px-4">
@@ -89,9 +97,7 @@ export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: stri
                   <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold ${getStatusTone(item.status)}`}>{item.status}</span>
                 </div>
                 <ProgressBar value={item.rate} color="bg-clay" />
-                <p className="rounded-2xl bg-cream px-3 py-2 text-xs font-bold leading-relaxed text-cocoa/70">
-                  {getCategoryCoachMessage(item)}
-                </p>
+                <BudgetBuddy compact mood={getBudgetBuddyMood(item.rate)} message={getCategoryCoachMessage(item)} />
               </div>
             ))}
           </div>
