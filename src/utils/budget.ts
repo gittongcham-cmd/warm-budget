@@ -71,6 +71,26 @@ export function getStatusTone(status: BudgetStatus) {
   return tones[status];
 }
 
+export function getCategoryCoachMessage({
+  label,
+  spent,
+  budget,
+  rate
+}: {
+  label: string;
+  spent: number;
+  budget: number;
+  rate: number;
+}) {
+  if (budget <= 0) return `${label} 예산을 먼저 정하면 사용 흐름을 같이 봐드릴게요.`;
+  if (spent <= 0) return `아직 ${label} 지출이 없어요. 좋은 출발이에요.`;
+  if (rate < 50) return `${label} 예산이 절반 이상 남았어요. 지금 페이스 좋아요.`;
+  if (rate < 70) return `${label} 예산을 절반 정도 썼어요. 남은 기간은 조금만 더 살펴봐요.`;
+  if (rate < 90) return `${label} 예산을 꽤 썼어요. 오늘부터는 필요한 지출 위주로 가볼까요?`;
+  if (rate < 100) return `${label} 예산이 얼마 안 남았어요. 이번 달은 조금 더 절약 모드로 가요.`;
+  return `${label} 예산을 넘겼어요. 다음 달 배분을 조금 올리거나 지출 패턴을 조정해봐요.`;
+}
+
 export function getMonthlyTransactions(transactions: Transaction[], now = new Date()) {
   const monthKey = getCurrentMonthKey(now);
   return transactions.filter((transaction) => transaction.date.startsWith(monthKey));
