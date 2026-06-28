@@ -2,11 +2,11 @@
 
 export type BuddyMood = "happy" | "calm" | "worried" | "alert";
 
-const moodStyles: Record<BuddyMood, { cheek: string }> = {
-  happy: { cheek: "#ffb1a1" },
-  calm: { cheek: "#ffc1ad" },
-  worried: { cheek: "#ffb3bd" },
-  alert: { cheek: "#f67280" }
+const moodStyles: Record<BuddyMood, { cheek: string; mouth: string }> = {
+  happy: { cheek: "#ffb1a1", mouth: "M32 45 Q40 53 48 45" },
+  calm: { cheek: "#ffc1ad", mouth: "M33 46 Q40 50 47 46" },
+  worried: { cheek: "#ffb3bd", mouth: "M34 49 Q40 45 46 49" },
+  alert: { cheek: "#f67280", mouth: "M36 48 Q40 51 44 48" }
 };
 
 export function BudgetBuddy({
@@ -38,69 +38,46 @@ export function BudgetBuddy({
 function CatFace({ mood, size }: { mood: BuddyMood; size: number }) {
   const style = moodStyles[mood];
   const worriedBrows = mood === "worried" || mood === "alert";
-  const mouth =
-    mood === "happy"
-      ? "M43 57 Q48 64 53 57"
-      : mood === "calm"
-        ? "M43 58 Q48 61 53 58"
-        : mood === "worried"
-          ? "M43 61 Q48 56 53 61"
-          : "M44 60 Q48 63 52 60";
 
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 96 96"
+      viewBox="0 0 80 80"
       role="img"
       aria-label="모아냥 예산 코치"
       className="shrink-0 drop-shadow-[0_8px_14px_rgba(255,143,112,0.22)]"
     >
-      <path d="M20 72 C7 65 6 45 19 40 C30 36 35 48 28 57 C23 63 24 68 34 71" fill="none" stroke="#b36a38" strokeWidth="7" strokeLinecap="round" />
-      <path d="M20 72 C7 65 6 45 19 40" fill="none" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" opacity="0.35" />
-      <ellipse cx="50" cy="70" rx="24" ry="17" fill="#f7bb73" stroke="#5a4037" strokeWidth="2.8" />
-      <path d="M34 66 C38 76 59 77 67 66 C63 81 40 84 31 70 Z" fill="#fff7e7" opacity="0.96" />
-      <ellipse cx="32" cy="75" rx="10" ry="7" fill="#fff7e7" stroke="#5a4037" strokeWidth="2.4" />
-      <ellipse cx="66" cy="75" rx="10" ry="7" fill="#fff7e7" stroke="#5a4037" strokeWidth="2.4" />
-
-      <g transform="rotate(-12 28 54)">
-        <ellipse cx="24" cy="54" rx="10" ry="16" fill="#fff7e7" stroke="#5a4037" strokeWidth="2.6" />
-        <ellipse cx="21" cy="49" rx="2.1" ry="2.8" fill="#f6a6a1" />
-        <ellipse cx="26" cy="47" rx="2.1" ry="2.8" fill="#f6a6a1" />
-        <ellipse cx="30" cy="51" rx="2.1" ry="2.8" fill="#f6a6a1" />
-        <path d="M21 57 Q25 52 30 58 Q25 62 21 57Z" fill="#f6a6a1" />
-      </g>
-
-      <path d="M20 35 L25 10 L42 27 Z" fill="#f7bb73" stroke="#5a4037" strokeWidth="2.8" strokeLinejoin="round" />
-      <path d="M76 35 L71 10 L54 27 Z" fill="#f7bb73" stroke="#5a4037" strokeWidth="2.8" strokeLinejoin="round" />
-      <path d="M27 17 L28 31 L38 27 Z" fill="#ffb8ac" opacity="0.92" />
-      <path d="M69 17 L68 31 L58 27 Z" fill="#ffb8ac" opacity="0.92" />
-      <circle cx="48" cy="42" r="29" fill="#f7bb73" stroke="#5a4037" strokeWidth="2.8" />
-      <path d="M32 52 C36 60 60 60 64 52 C61 69 35 70 32 52Z" fill="#fff7e7" opacity="0.98" />
-      <path d="M37 18 C40 27 43 30 48 31 C53 30 56 26 59 18" fill="none" stroke="#8e552c" strokeWidth="4" strokeLinecap="round" />
-      <path d="M48 14 V29" stroke="#8e552c" strokeWidth="4" strokeLinecap="round" />
-      <path d="M29 31 C34 31 38 34 40 38" fill="none" stroke="#8e552c" strokeWidth="3.5" strokeLinecap="round" opacity="0.85" />
-      <path d="M67 31 C62 31 58 34 56 38" fill="none" stroke="#8e552c" strokeWidth="3.5" strokeLinecap="round" opacity="0.85" />
-      <circle cx="35" cy="51" r="5.2" fill={style.cheek} opacity="0.7" />
-      <circle cx="61" cy="51" r="5.2" fill={style.cheek} opacity="0.7" />
+      <path d="M18 30 L22 11 L35 23 Z" fill="#fff4dc" stroke="#5a4037" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M62 30 L58 11 L45 23 Z" fill="#fff4dc" stroke="#5a4037" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M24 19 L25 28 L32 24 Z" fill="#ffcab8" opacity="0.9" />
+      <path d="M56 19 L55 28 L48 24 Z" fill="#ffcab8" opacity="0.9" />
+      <circle cx="40" cy="42" r="25" fill="#fff4dc" stroke="#5a4037" strokeWidth="3" />
+      <circle cx="28" cy="43" r="5" fill={style.cheek} opacity="0.7" />
+      <circle cx="52" cy="43" r="5" fill={style.cheek} opacity="0.7" />
       {worriedBrows ? (
         <>
-          <path d="M30 34 L40 37" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" />
-          <path d="M66 34 L56 37" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" />
+          <path d="M25 27 L34 30" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" />
+          <path d="M55 27 L46 30" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" />
         </>
       ) : null}
-      <circle cx="37" cy="41" r="7.4" fill="#26313f" stroke="#5a4037" strokeWidth="2" />
-      <circle cx="59" cy="41" r="7.4" fill="#26313f" stroke="#5a4037" strokeWidth="2" />
-      <circle cx="34.5" cy="38" r="2.3" fill="#ffffff" opacity="0.95" />
-      <circle cx="56.5" cy="38" r="2.3" fill="#ffffff" opacity="0.95" />
-      <circle cx="39.5" cy="44" r="1.2" fill="#ffffff" opacity="0.55" />
-      <circle cx="61.5" cy="44" r="1.2" fill="#ffffff" opacity="0.55" />
-      <path d="M46 49 Q48 51 50 49" stroke="#d57677" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <path d={mouth} stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <path d="M24 48 H11" stroke="#5a4037" strokeWidth="1.8" strokeLinecap="round" opacity="0.38" />
-      <path d="M25 54 L12 59" stroke="#5a4037" strokeWidth="1.8" strokeLinecap="round" opacity="0.38" />
-      <path d="M72 48 H85" stroke="#5a4037" strokeWidth="1.8" strokeLinecap="round" opacity="0.38" />
-      <path d="M71 54 L84 59" stroke="#5a4037" strokeWidth="1.8" strokeLinecap="round" opacity="0.38" />
+      {mood === "alert" ? (
+        <>
+          <circle cx="31" cy="34" r="2.8" fill="#5a4037" />
+          <circle cx="49" cy="34" r="2.8" fill="#5a4037" />
+        </>
+      ) : (
+        <>
+          <path d="M28 34 Q31 31 34 34" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
+          <path d="M46 34 Q49 31 52 34" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
+        </>
+      )}
+      <path d="M39 39 Q40 41 41 39" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <path d={style.mouth} stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <path d="M15 42 H5" stroke="#5a4037" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
+      <path d="M16 48 L6 52" stroke="#5a4037" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
+      <path d="M65 42 H75" stroke="#5a4037" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
+      <path d="M64 48 L74 52" stroke="#5a4037" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
     </svg>
   );
 }
