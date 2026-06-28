@@ -36,5 +36,6 @@ export type BudgetData = {
 export type CategoryMeta = {
   key: CategoryKey;
   label: string;
+  emoji: string;
   color: string;
 };

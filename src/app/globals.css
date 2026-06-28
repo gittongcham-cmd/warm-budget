@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  background: #fff8ed;
-  color: #2f241f;
+  background: #fff7ed;
+  color: #3f302a;
 }
 
 * {
@@ -15,9 +15,8 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at top left, rgba(239, 141, 72, 0.18), transparent 30rem),
-    linear-gradient(180deg, #fff8ed 0%, #f6ead8 100%);
-  color: #2f241f;
+    linear-gradient(135deg, rgba(255, 234, 223, 0.95) 0%, rgba(255, 247, 237, 0.98) 44%, rgba(232, 247, 239, 0.9) 100%);
+  color: #3f302a;
 }
 
 button,

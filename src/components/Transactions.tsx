@@ -23,13 +23,13 @@ export function Transactions({ data, monthKey }: { data: BudgetData; monthKey: s
             const category = categoryMap.get(transaction.category);
 
             return (
-              <div key={transaction.id} className="flex items-center justify-between gap-3 rounded-lg bg-cream p-3">
+              <div key={transaction.id} className="flex items-center justify-between gap-3 rounded-2xl bg-cream p-3">
                 <div className="flex min-w-0 items-center gap-3">
                   <span className="h-10 w-2 shrink-0 rounded-full" style={{ backgroundColor: category?.color }} />
                   <div className="min-w-0">
                     <p className="truncate font-black">{transaction.memo || category?.label}</p>
                     <p className="text-xs text-cocoa/60">
-                      {transaction.date} · {category?.label} · {paymentMap.get(transaction.paymentMethod)}
+                      {transaction.date} · {category?.emoji} {category?.label} · {paymentMap.get(transaction.paymentMethod)}
                     </p>
                   </div>
                 </div>

@@ -56,7 +56,7 @@ export function AddExpense({
     <div className="space-y-4 px-4 pb-28 pt-5">
       <div>
         <p className="text-sm font-semibold text-clay">새 지출</p>
-        <h1 className="text-2xl font-black">오늘 쓴 돈 기록하기</h1>
+        <h1 className="text-2xl font-black">오늘 쓴 돈 살짝 기록하기</h1>
       </div>
 
       <Card>

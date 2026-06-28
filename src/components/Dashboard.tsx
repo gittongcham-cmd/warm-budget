@@ -18,21 +18,23 @@ export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: stri
 
   return (
     <div className="space-y-4 pb-28">
-      <div className="rounded-b-[2rem] bg-cocoa px-5 pb-6 pt-7 text-white shadow-warm">
-        <p className="text-sm text-white/70">{getMonthLabel(monthKey)} 생활 예산</p>
+      <div className="mx-4 mt-4 rounded-[1.75rem] bg-gradient-to-br from-clay via-persimmon to-butter px-5 pb-6 pt-6 text-white shadow-warm">
+        <p className="text-sm font-bold text-white/80">{getMonthLabel(monthKey)} 살림 노트</p>
         <div className="mt-3 flex items-end justify-between gap-4">
           <div>
             <p className="text-3xl font-black tracking-normal">{formatCurrency(summary.remainingBudget)}</p>
-            <p className="mt-1 text-sm text-white/75">목표에서 남은 예산</p>
+            <p className="mt-1 text-sm font-semibold text-white/80">
+              {summary.remainingBudget >= 0 ? "아직 이만큼 여유 있어요" : "이번 달 목표를 넘겼어요"}
+            </p>
           </div>
-          <span className={`rounded-full px-3 py-1 text-sm font-bold ${getStatusTone(summary.overallStatus)}`}>{summary.overallStatus}</span>
+          <span className="rounded-full bg-white/26 px-3 py-1 text-sm font-black text-white">{summary.overallStatus}</span>
         </div>
         <div className="mt-5 space-y-2">
           <div className="flex items-center justify-between text-sm text-white/80">
             <span>목표 대비 사용률</span>
             <span>{summary.usageRate.toFixed(1)}%</span>
           </div>
-          <ProgressBar value={summary.usageRate} color="bg-persimmon" />
+          <ProgressBar value={summary.usageRate} color="bg-white" />
         </div>
       </div>
 
@@ -64,7 +66,7 @@ export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: stri
             {summary.categorySummary.filter((item) => item.spent > 0).map((item) => (
               <div key={item.key} className="flex items-center gap-2 text-sm">
                 <span className="h-3 w-3 rounded-full" style={{ backgroundColor: item.color }} />
-                <span className="truncate text-cocoa/75">{item.label}</span>
+                <span className="truncate text-cocoa/75">{item.emoji} {item.label}</span>
               </div>
             ))}
           </div>
@@ -79,7 +81,7 @@ export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: stri
               <div key={item.key} className="space-y-2">
                 <div className="flex items-center justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="font-bold">{item.label}</p>
+                    <p className="font-bold">{item.emoji} {item.label}</p>
                     <p className="text-xs text-cocoa/60">
                       {formatCurrency(item.spent)} / {formatCurrency(item.budget)}
                     </p>
@@ -87,7 +89,7 @@ export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: stri
                   <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold ${getStatusTone(item.status)}`}>{item.status}</span>
                 </div>
                 <ProgressBar value={item.rate} color="bg-clay" />
-                <p className="rounded-lg bg-cream px-3 py-2 text-xs font-bold leading-relaxed text-cocoa/70">
+                <p className="rounded-2xl bg-cream px-3 py-2 text-xs font-bold leading-relaxed text-cocoa/70">
                   {getCategoryCoachMessage(item)}
                 </p>
               </div>
@@ -115,11 +117,11 @@ export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: stri
               const category = categoryMap.get(transaction.category);
 
               return (
-                <div key={transaction.id} className="flex items-center justify-between gap-3 rounded-lg bg-cream p-3">
+                <div key={transaction.id} className="flex items-center justify-between gap-3 rounded-2xl bg-cream p-3">
                   <div className="min-w-0">
                     <p className="truncate font-bold">{transaction.memo || category?.label}</p>
                     <p className="text-xs text-cocoa/60">
-                      {transaction.date} · {category?.label} · {paymentMap.get(transaction.paymentMethod)}
+                      {transaction.date} · {category?.emoji} {category?.label} · {paymentMap.get(transaction.paymentMethod)}
                     </p>
                   </div>
                   <p className="shrink-0 font-black text-clay">-{formatCurrency(transaction.amount)}</p>
@@ -136,7 +138,7 @@ export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: stri
 function MetricCard({ icon, label, value, sub }: { icon: ReactNode; label: string; value: string; sub?: string }) {
   return (
     <Card className="min-h-28">
-      <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-persimmon/15 text-clay">{icon}</div>
+      <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-persimmon/18 text-clay">{icon}</div>
       <p className="text-xs font-bold text-cocoa/60">{label}</p>
       <p className="mt-1 break-keep text-xl font-black leading-tight">{value}</p>
       {sub ? <p className="mt-1 text-xs text-cocoa/55">{sub}</p> : null}
@@ -146,7 +148,7 @@ function MetricCard({ icon, label, value, sub }: { icon: ReactNode; label: strin
 
 function Checkpoint({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between rounded-lg bg-cream px-3 py-2">
+    <div className="flex items-center justify-between rounded-2xl bg-cream px-3 py-2">
       <span className="font-semibold text-cocoa/70">{label}</span>
       <span className="font-black">{value}</span>
     </div>

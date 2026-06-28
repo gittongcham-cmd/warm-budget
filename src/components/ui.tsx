@@ -7,7 +7,7 @@ export function Card({
   children: ReactNode;
   className?: string;
 }) {
-  return <section className={`rounded-lg bg-white/82 p-4 shadow-warm ring-1 ring-clay/8 ${className}`}>{children}</section>;
+  return <section className={`rounded-2xl bg-white/88 p-4 shadow-warm ring-1 ring-white/70 ${className}`}>{children}</section>;
 }
 
 export function Label({ children }: { children: ReactNode }) {
@@ -28,7 +28,7 @@ export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className={`w-full rounded-lg border border-clay/15 bg-cream px-3 py-3 text-base font-semibold text-ink outline-none transition focus:border-clay focus:ring-2 focus:ring-persimmon/25 ${props.className ?? ""}`}
+      className={`w-full rounded-2xl border border-persimmon/25 bg-white px-3 py-3 text-base font-semibold text-ink outline-none transition placeholder:text-cocoa/35 focus:border-clay focus:ring-2 focus:ring-persimmon/25 ${props.className ?? ""}`}
     />
   );
 }
@@ -37,7 +37,7 @@ export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
       {...props}
-      className={`w-full rounded-lg border border-clay/15 bg-cream px-3 py-3 text-base font-semibold text-ink outline-none transition focus:border-clay focus:ring-2 focus:ring-persimmon/25 ${props.className ?? ""}`}
+      className={`w-full rounded-2xl border border-persimmon/25 bg-white px-3 py-3 text-base font-semibold text-ink outline-none transition focus:border-clay focus:ring-2 focus:ring-persimmon/25 ${props.className ?? ""}`}
     />
   );
 }
@@ -46,7 +46,7 @@ export function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement
   return (
     <textarea
       {...props}
-      className={`min-h-24 w-full rounded-lg border border-clay/15 bg-cream px-3 py-3 text-base font-semibold text-ink outline-none transition focus:border-clay focus:ring-2 focus:ring-persimmon/25 ${props.className ?? ""}`}
+      className={`min-h-24 w-full rounded-2xl border border-persimmon/25 bg-white px-3 py-3 text-base font-semibold text-ink outline-none transition placeholder:text-cocoa/35 focus:border-clay focus:ring-2 focus:ring-persimmon/25 ${props.className ?? ""}`}
     />
   );
 }
@@ -59,7 +59,7 @@ export function PrimaryButton({
   return (
     <button
       {...props}
-      className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-clay px-4 py-3 text-base font-bold text-white shadow-warm transition hover:bg-persimmon active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+      className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-clay px-4 py-3 text-base font-bold text-white shadow-warm transition hover:bg-persimmon active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
     >
       {children}
     </button>

@@ -1,14 +1,14 @@
 import { BudgetData, CategoryMeta, CategoryKey, PaymentMethod } from "@/types/budget";
 
 export const categories: CategoryMeta[] = [
-  { key: "food", label: "식비", color: "#ef8d48" },
-  { key: "cafe", label: "카페", color: "#caa25c" },
-  { key: "transport", label: "교통", color: "#6f8a54" },
-  { key: "shopping", label: "쇼핑", color: "#a85d57" },
-  { key: "living", label: "생활", color: "#5f7f96" },
-  { key: "health", label: "건강", color: "#9a7857" },
-  { key: "culture", label: "문화", color: "#8f6bb1" },
-  { key: "etc", label: "기타", color: "#8c8378" }
+  { key: "food", label: "식비", emoji: "🍚", color: "#ff8f70" },
+  { key: "cafe", label: "카페", emoji: "☕", color: "#d8ad62" },
+  { key: "transport", label: "교통", emoji: "🚌", color: "#70b99f" },
+  { key: "shopping", label: "쇼핑", emoji: "🛍", color: "#f67280" },
+  { key: "living", label: "생활", emoji: "🧺", color: "#7aa7d9" },
+  { key: "health", label: "건강", emoji: "💪", color: "#89c779" },
+  { key: "culture", label: "문화", emoji: "🎬", color: "#b99cff" },
+  { key: "etc", label: "기타", emoji: "✨", color: "#9b9188" }
 ];
 
 export const paymentMethods: { key: PaymentMethod; label: string }[] = [

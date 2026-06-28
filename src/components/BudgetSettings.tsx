@@ -72,7 +72,7 @@ export function BudgetSettings({
             type="button"
             onClick={handleCopyPrevious}
             disabled={!canCopyPrevious}
-            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-cream px-3 py-2 text-sm font-black text-clay ring-1 ring-clay/10 transition hover:bg-linen disabled:cursor-not-allowed disabled:opacity-45"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-cream px-3 py-2 text-sm font-black text-clay ring-1 ring-persimmon/25 transition hover:bg-linen disabled:cursor-not-allowed disabled:opacity-45"
           >
             <Copy size={16} />
             지난달 예산 가져오기
@@ -102,7 +102,7 @@ export function BudgetSettings({
 
           <div>
             <h2 className="mb-3 text-lg font-black">카테고리별 예산 배분</h2>
-            <div className="mb-3 rounded-lg bg-cream p-3">
+            <div className="mb-3 rounded-2xl bg-cream p-3">
               <div className="grid grid-cols-3 gap-2 text-center">
                 <BudgetSummary label="목표" value={formatCurrency(form.targetSpending)} />
                 <BudgetSummary label={`배분 ${allocationRate.toFixed(1)}%`} value={formatCurrency(allocatedBudget)} />
@@ -111,7 +111,7 @@ export function BudgetSettings({
               <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
                 <div className="h-full rounded-full bg-clay" style={{ width: `${Math.min(Math.max(allocationRate, 0), 100)}%` }} />
               </div>
-              <p className={`mt-3 rounded-lg px-3 py-2 text-center text-sm font-bold ${allocationTone}`}>
+              <p className={`mt-3 rounded-2xl px-3 py-2 text-center text-sm font-bold ${allocationTone}`}>
                 {remainingAllocation < 0
                   ? `목표 지출액보다 ${formatCurrency(Math.abs(remainingAllocation))} 더 배분했어요.`
                   : remainingAllocation === 0 && form.targetSpending > 0
@@ -125,11 +125,11 @@ export function BudgetSettings({
                 const categoryRate = form.targetSpending > 0 ? (categoryBudget / form.targetSpending) * 100 : 0;
 
                 return (
-                  <div key={category.key} className="rounded-lg bg-cream p-3">
+                  <div key={category.key} className="rounded-2xl bg-cream p-3">
                     <div className="grid grid-cols-[1fr_minmax(130px,1.2fr)] items-center gap-3">
                       <div className="flex min-w-0 items-center gap-2">
                         <span className="h-3 w-3 rounded-full" style={{ backgroundColor: category.color }} />
-                        <span className="font-bold">{category.label}</span>
+                        <span className="font-bold">{category.emoji} {category.label}</span>
                       </div>
                       <Input
                         inputMode="numeric"
@@ -163,7 +163,7 @@ export function BudgetSettings({
 
 function BudgetSummary({ label, value }: { label: string; value: string }) {
   return (
-    <div className="min-w-0 rounded-lg bg-white px-2 py-3">
+    <div className="min-w-0 rounded-2xl bg-white px-2 py-3">
       <p className="text-xs font-bold text-cocoa/55">{label}</p>
       <p className="mt-1 truncate text-sm font-black text-ink">{value}</p>
     </div>

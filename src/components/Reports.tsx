@@ -58,7 +58,7 @@ export function Reports({ data, monthKey }: { data: BudgetData; monthKey: string
           </div>
           <ProgressBar value={currentSummary.usageRate} color="bg-clay" />
         </div>
-        <p className="mt-4 rounded-lg bg-cream px-3 py-3 text-sm font-bold text-cocoa">{evaluation}</p>
+        <p className="mt-4 rounded-2xl bg-cream px-3 py-3 text-sm font-bold text-cocoa">{evaluation}</p>
       </Card>
 
       <div className="grid grid-cols-2 gap-3">
@@ -89,7 +89,7 @@ export function Reports({ data, monthKey }: { data: BudgetData; monthKey: string
             <ReportLine label="전월 지출" value={formatCurrency(previousSummary.totalSpending)} />
           </div>
         ) : (
-          <p className="rounded-lg bg-cream px-3 py-3 text-sm font-bold text-cocoa/70">
+          <p className="rounded-2xl bg-cream px-3 py-3 text-sm font-bold text-cocoa/70">
             전월 데이터가 쌓이면 다음 달부터 지출 변화와 저축 변화를 비교해드릴게요.
           </p>
         )}
@@ -109,7 +109,7 @@ function ReportMetric({ label, value }: { label: string; value: string }) {
 
 function ReportLine({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-lg bg-cream px-3 py-2">
+    <div className="flex items-center justify-between gap-3 rounded-2xl bg-cream px-3 py-2">
       <span className="font-semibold text-cocoa/70">{label}</span>
       <span className="text-right font-black">{value}</span>
     </div>
@@ -131,7 +131,7 @@ function ComparisonLine({
   const Icon = delta > 0 ? ArrowUpRight : ArrowDownRight;
 
   return (
-    <div className="flex items-center justify-between gap-3 rounded-lg bg-cream px-3 py-2">
+    <div className="flex items-center justify-between gap-3 rounded-2xl bg-cream px-3 py-2">
       <span className="font-semibold text-cocoa/70">{label}</span>
       <span className={`inline-flex items-center gap-1 text-right font-black ${isGood ? "text-moss" : "text-rosewood"}`}>
         <Icon size={16} />

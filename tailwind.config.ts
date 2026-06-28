@@ -9,17 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: "#fff8ed",
-        linen: "#f6ead8",
-        clay: "#d8783f",
-        persimmon: "#ef8d48",
-        cocoa: "#4d3428",
-        moss: "#6f8a54",
-        rosewood: "#a85d57",
-        ink: "#2f241f"
+        cream: "#fff7ed",
+        linen: "#ffeadf",
+        clay: "#ff8f70",
+        persimmon: "#ffad8d",
+        cocoa: "#5a4037",
+        moss: "#70b99f",
+        rosewood: "#f67280",
+        ink: "#3f302a",
+        mint: "#a7d7c5",
+        lavender: "#c7b7ff",
+        butter: "#ffe08a"
       },
       boxShadow: {
-        warm: "0 14px 35px rgba(150, 91, 45, 0.14)"
+        warm: "0 16px 36px rgba(255, 143, 112, 0.16)"
       }
     }
   },
