@@ -5,7 +5,7 @@ import { emptyBudgetData } from "@/data/mockData";
 import { BudgetData, BudgetSettings, Transaction } from "@/types/budget";
 import { calculateBudget, normalizeSettings } from "@/utils/budget";
 
-const STORAGE_KEY = "warm-budget-data-v1";
+const STORAGE_KEY = "warm-budget-data-v2";
 
 function readStoredData(): BudgetData {
   if (typeof window === "undefined") return emptyBudgetData;
