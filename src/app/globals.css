@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  background: #fff8ed;
+  color: #2f241f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(239, 141, 72, 0.18), transparent 30rem),
+    linear-gradient(180deg, #fff8ed 0%, #f6ead8 100%);
+  color: #2f241f;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.recharts-wrapper * {
+  outline: none;
+}
