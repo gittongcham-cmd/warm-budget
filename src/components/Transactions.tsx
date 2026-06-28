@@ -2,19 +2,19 @@
 
 import { categories, paymentMethods } from "@/data/mockData";
 import { BudgetData } from "@/types/budget";
-import { formatCurrency, getMonthlyTransactions } from "@/utils/budget";
+import { formatCurrency, getDateFromMonthKey, getMonthLabel, getMonthlyTransactions } from "@/utils/budget";
 import { Card } from "@/components/ui";
 
-export function Transactions({ data }: { data: BudgetData }) {
+export function Transactions({ data, monthKey }: { data: BudgetData; monthKey: string }) {
   const categoryMap = new Map(categories.map((category) => [category.key, category]));
   const paymentMap = new Map(paymentMethods.map((method) => [method.key, method.label]));
-  const transactions = getMonthlyTransactions(data.transactions).sort((a, b) => b.date.localeCompare(a.date));
+  const transactions = getMonthlyTransactions(data.transactions, getDateFromMonthKey(monthKey)).sort((a, b) => b.date.localeCompare(a.date));
 
   return (
     <div className="space-y-4 px-4 pb-28 pt-5">
       <div>
         <p className="text-sm font-semibold text-clay">거래 내역</p>
-        <h1 className="text-2xl font-black">이번 달 지출 흐름</h1>
+        <h1 className="text-2xl font-black">{getMonthLabel(monthKey)} 지출 흐름</h1>
       </div>
 
       <Card>

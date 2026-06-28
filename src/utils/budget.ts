@@ -25,6 +25,16 @@ export function getCurrentMonthKey(date = new Date()) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 }
 
+export function getDateFromMonthKey(monthKey: string) {
+  const [year, month] = monthKey.split("-").map(Number);
+  return new Date(year, month - 1, 1);
+}
+
+export function shiftMonthKey(monthKey: string, offset: number) {
+  const [year, month] = monthKey.split("-").map(Number);
+  return getCurrentMonthKey(new Date(year, month - 1 + offset, 1));
+}
+
 export function getPreviousMonthKey(date = new Date()) {
   return getCurrentMonthKey(new Date(date.getFullYear(), date.getMonth() - 1, 1));
 }

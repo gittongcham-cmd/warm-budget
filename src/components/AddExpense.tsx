@@ -1,7 +1,7 @@
 "use client";
 
 import { Save } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { categories, paymentMethods } from "@/data/mockData";
 import { CategoryKey, PaymentMethod, Transaction } from "@/types/budget";
 import { Card, Field, Input, Label, PrimaryButton, Select, Textarea } from "@/components/ui";
@@ -11,13 +11,28 @@ function todayString() {
   return new Date().toISOString().slice(0, 10);
 }
 
-export function AddExpense({ onAdd }: { onAdd: (transaction: Omit<Transaction, "id">) => void }) {
+function defaultDateForMonth(monthKey: string) {
+  const today = todayString();
+  return today.startsWith(monthKey) ? today : `${monthKey}-01`;
+}
+
+export function AddExpense({
+  monthKey,
+  onAdd
+}: {
+  monthKey: string;
+  onAdd: (transaction: Omit<Transaction, "id">) => void;
+}) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState<CategoryKey>("food");
-  const [date, setDate] = useState(todayString());
+  const [date, setDate] = useState(defaultDateForMonth(monthKey));
   const [memo, setMemo] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
   const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    setDate(defaultDateForMonth(monthKey));
+  }, [monthKey]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

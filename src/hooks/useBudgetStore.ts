@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { emptyBudgetData } from "@/data/mockData";
 import { BudgetData, BudgetSettings, Transaction } from "@/types/budget";
-import { calculateBudget, getCurrentMonthKey, normalizeSettings } from "@/utils/budget";
+import { calculateBudget, getCurrentMonthKey, getDateFromMonthKey, normalizeSettings, shiftMonthKey } from "@/utils/budget";
 
 const STORAGE_KEY = "warm-budget-data-v2";
 
@@ -41,6 +41,7 @@ function readStoredData(): BudgetData {
 
 export function useBudgetStore() {
   const [data, setData] = useState<BudgetData>(emptyBudgetData);
+  const [selectedMonthKey, setSelectedMonthKey] = useState(getCurrentMonthKey());
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -53,7 +54,19 @@ export function useBudgetStore() {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }, [data, ready]);
 
-  const summary = useMemo(() => calculateBudget(data), [data]);
+  const selectedSettings = useMemo(
+    () => data.monthlySettings?.[selectedMonthKey] ?? emptyBudgetData.settings,
+    [data.monthlySettings, selectedMonthKey]
+  );
+  const selectedData = useMemo(
+    () => ({
+      ...data,
+      settings: selectedSettings
+    }),
+    [data, selectedSettings]
+  );
+  const selectedMonthDate = useMemo(() => getDateFromMonthKey(selectedMonthKey), [selectedMonthKey]);
+  const summary = useMemo(() => calculateBudget(selectedData, selectedMonthDate), [selectedData, selectedMonthDate]);
 
   function addTransaction(transaction: Omit<Transaction, "id">) {
     setData((current) => ({
@@ -71,16 +84,22 @@ export function useBudgetStore() {
 
   function saveSettings(settings: BudgetSettings) {
     const normalized = normalizeSettings(settings);
-    const currentMonthKey = getCurrentMonthKey();
 
     setData((current) => ({
       ...current,
       settings: normalized,
       monthlySettings: {
         ...(current.monthlySettings ?? {}),
-        [currentMonthKey]: normalized
+        [selectedMonthKey]: normalized
       }
     }));
+  }
+
+  function copyPreviousMonthSettings() {
+    const previousMonthKey = shiftMonthKey(selectedMonthKey, -1);
+    const previousSettings = data.monthlySettings?.[previousMonthKey];
+    if (!previousSettings) return;
+    saveSettings(previousSettings);
   }
 
   function resetData() {
@@ -91,11 +110,17 @@ export function useBudgetStore() {
   }
 
   return {
-    data,
+    data: selectedData,
     summary,
     ready,
+    selectedMonthKey,
+    setSelectedMonthKey,
+    goToPreviousMonth: () => setSelectedMonthKey((current) => shiftMonthKey(current, -1)),
+    goToNextMonth: () => setSelectedMonthKey((current) => shiftMonthKey(current, 1)),
     addTransaction,
     saveSettings,
+    copyPreviousMonthSettings,
+    hasPreviousMonthSettings: Boolean(data.monthlySettings?.[shiftMonthKey(selectedMonthKey, -1)]),
     resetData
   };
 }

@@ -4,12 +4,13 @@ import { ArrowDownRight, CalendarDays, PiggyBank, WalletCards } from "lucide-rea
 import type { ReactNode } from "react";
 import { categories, paymentMethods } from "@/data/mockData";
 import { BudgetData } from "@/types/budget";
-import { calculateBudget, formatCurrency, getRemainingDays, getStatusTone } from "@/utils/budget";
+import { calculateBudget, formatCurrency, getDateFromMonthKey, getMonthLabel, getRemainingDays, getStatusTone } from "@/utils/budget";
 import { Card, ProgressBar } from "@/components/ui";
 import { SpendingDonutChart, TopCategoryBarChart } from "@/components/Charts";
 
-export function Dashboard({ data }: { data: BudgetData }) {
-  const summary = calculateBudget(data);
+export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: string }) {
+  const selectedDate = getDateFromMonthKey(monthKey);
+  const summary = calculateBudget(data, selectedDate);
   const categoryMap = new Map(categories.map((category) => [category.key, category]));
   const paymentMap = new Map(paymentMethods.map((method) => [method.key, method.label]));
   const overBudgetCount = summary.categorySummary.filter((category) => category.status === "초과").length;
@@ -18,7 +19,7 @@ export function Dashboard({ data }: { data: BudgetData }) {
   return (
     <div className="space-y-4 pb-28">
       <div className="rounded-b-[2rem] bg-cocoa px-5 pb-6 pt-7 text-white shadow-warm">
-        <p className="text-sm text-white/70">이번 달 생활 예산</p>
+        <p className="text-sm text-white/70">{getMonthLabel(monthKey)} 생활 예산</p>
         <div className="mt-3 flex items-end justify-between gap-4">
           <div>
             <p className="text-3xl font-black tracking-normal">{formatCurrency(summary.remainingBudget)}</p>
@@ -36,9 +37,9 @@ export function Dashboard({ data }: { data: BudgetData }) {
       </div>
 
       <div className="grid grid-cols-2 gap-3 px-4">
-        <MetricCard icon={<WalletCards size={18} />} label="이번 달 수입" value={formatCurrency(data.settings.monthlyIncome)} />
+        <MetricCard icon={<WalletCards size={18} />} label="선택 월 수입" value={formatCurrency(summary.settings.monthlyIncome)} />
         <MetricCard icon={<ArrowDownRight size={18} />} label="현재 지출액" value={formatCurrency(summary.totalSpending)} />
-        <MetricCard icon={<CalendarDays size={18} />} label="하루 가능 금액" value={formatCurrency(summary.dailyAvailable)} sub={`${getRemainingDays()}일 남음`} />
+        <MetricCard icon={<CalendarDays size={18} />} label="하루 가능 금액" value={formatCurrency(summary.dailyAvailable)} sub={`${getRemainingDays(selectedDate)}일 기준`} />
         <MetricCard icon={<PiggyBank size={18} />} label="예상 저축액" value={formatCurrency(summary.expectedSavings)} />
       </div>
 
@@ -47,7 +48,7 @@ export function Dashboard({ data }: { data: BudgetData }) {
           <div className="mb-3 flex items-center justify-between">
             <div>
               <h2 className="text-lg font-black">카테고리 TOP 5</h2>
-              <p className="text-sm text-cocoa/60">이번 달 많이 쓴 항목</p>
+              <p className="text-sm text-cocoa/60">선택한 월에 많이 쓴 항목</p>
             </div>
             <span className="text-sm font-bold text-clay">{formatCurrency(summary.totalSpending)}</span>
           </div>
@@ -94,9 +95,9 @@ export function Dashboard({ data }: { data: BudgetData }) {
 
       <div className="px-4">
         <Card>
-          <h2 className="mb-3 text-lg font-black">이번 달 체크 포인트</h2>
+          <h2 className="mb-3 text-lg font-black">선택 월 체크 포인트</h2>
           <div className="grid gap-2 text-sm">
-            <Checkpoint label="목표 지출액" value={formatCurrency(data.settings.targetSpending)} />
+            <Checkpoint label="목표 지출액" value={formatCurrency(summary.settings.targetSpending)} />
             <Checkpoint label="주의 이상 카테고리" value={`${warningCount}개`} />
             <Checkpoint label="초과 카테고리" value={`${overBudgetCount}개`} />
           </div>

@@ -1,25 +1,19 @@
 "use client";
 
 import { ArrowDownRight, ArrowUpRight, CalendarCheck, FileText } from "lucide-react";
-import { categories } from "@/data/mockData";
 import { BudgetData } from "@/types/budget";
-import { calculateBudget, formatCurrency, getMonthLabel, getPreviousMonthKey } from "@/utils/budget";
+import { calculateBudget, formatCurrency, getDateFromMonthKey, getMonthLabel, shiftMonthKey } from "@/utils/budget";
 import { Card, ProgressBar } from "@/components/ui";
-
-function dateFromMonthKey(monthKey: string) {
-  const [year, month] = monthKey.split("-").map(Number);
-  return new Date(year, month - 1, 1);
-}
 
 function formatDelta(value: number) {
   if (value === 0) return "변동 없음";
   return `${value > 0 ? "+" : "-"}${formatCurrency(Math.abs(value))}`;
 }
 
-export function Reports({ data }: { data: BudgetData }) {
-  const currentSummary = calculateBudget(data);
-  const previousMonthKey = getPreviousMonthKey();
-  const previousSummary = calculateBudget(data, dateFromMonthKey(previousMonthKey));
+export function Reports({ data, monthKey }: { data: BudgetData; monthKey: string }) {
+  const currentSummary = calculateBudget(data, getDateFromMonthKey(monthKey));
+  const previousMonthKey = shiftMonthKey(monthKey, -1);
+  const previousSummary = calculateBudget(data, getDateFromMonthKey(previousMonthKey));
   const hasPreviousData = previousSummary.monthlyTransactions.length > 0 || Boolean(data.monthlySettings?.[previousMonthKey]);
 
   const actualSavings = currentSummary.settings.monthlyIncome - currentSummary.totalSpending;

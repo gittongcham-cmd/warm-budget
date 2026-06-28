@@ -1,6 +1,6 @@
 "use client";
 
-import { Save } from "lucide-react";
+import { Copy, Save } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { categories } from "@/data/mockData";
 import { BudgetSettings as BudgetSettingsType, CategoryKey } from "@/types/budget";
@@ -8,10 +8,16 @@ import { Card, Field, Input, Label, PrimaryButton } from "@/components/ui";
 import { formatCurrency, formatMoneyInput, parseMoneyInput } from "@/utils/budget";
 
 export function BudgetSettings({
+  monthKey,
   settings,
+  canCopyPrevious,
+  onCopyPrevious,
   onSave
 }: {
+  monthKey: string;
   settings: BudgetSettingsType;
+  canCopyPrevious: boolean;
+  onCopyPrevious: () => void;
   onSave: (settings: BudgetSettingsType) => void;
 }) {
   const [form, setForm] = useState<BudgetSettingsType>(settings);
@@ -48,15 +54,29 @@ export function BudgetSettings({
     window.setTimeout(() => setSaved(false), 1800);
   }
 
+  function handleCopyPrevious() {
+    onCopyPrevious();
+    setSaved(false);
+  }
+
   return (
     <div className="space-y-4 px-4 pb-28 pt-5">
       <div>
         <p className="text-sm font-semibold text-clay">예산 설정</p>
-        <h1 className="text-2xl font-black">이번 달 기준 잡기</h1>
+        <h1 className="text-2xl font-black">{monthKey.replace("-", "년 ")}월 기준 잡기</h1>
       </div>
 
       <Card>
         <form className="space-y-5" onSubmit={handleSubmit}>
+          <button
+            type="button"
+            onClick={handleCopyPrevious}
+            disabled={!canCopyPrevious}
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-cream px-3 py-2 text-sm font-black text-clay ring-1 ring-clay/10 transition hover:bg-linen disabled:cursor-not-allowed disabled:opacity-45"
+          >
+            <Copy size={16} />
+            지난달 예산 가져오기
+          </button>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field>
               <Label>이번 달 수입</Label>
