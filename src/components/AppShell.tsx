@@ -1,20 +1,22 @@
 "use client";
 
-import { Home, List, PlusCircle, RotateCcw, Settings } from "lucide-react";
+import { FileText, Home, List, PlusCircle, RotateCcw, Settings } from "lucide-react";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { AddExpense } from "@/components/AddExpense";
 import { BudgetSettings } from "@/components/BudgetSettings";
 import { Dashboard } from "@/components/Dashboard";
+import { Reports } from "@/components/Reports";
 import { Transactions } from "@/components/Transactions";
 import { useBudgetStore } from "@/hooks/useBudgetStore";
 
-type Tab = "home" | "add" | "transactions" | "settings";
+type Tab = "home" | "add" | "transactions" | "reports" | "settings";
 
 const tabs: { key: Tab; label: string; icon: ReactNode }[] = [
   { key: "home", label: "홈", icon: <Home size={20} /> },
   { key: "add", label: "추가", icon: <PlusCircle size={20} /> },
   { key: "transactions", label: "내역", icon: <List size={20} /> },
+  { key: "reports", label: "리포트", icon: <FileText size={20} /> },
   { key: "settings", label: "예산", icon: <Settings size={20} /> }
 ];
 
@@ -27,10 +29,11 @@ export function AppShell() {
       {tab === "home" ? <Dashboard data={data} /> : null}
       {tab === "add" ? <AddExpense onAdd={(transaction) => { addTransaction(transaction); setTab("home"); }} /> : null}
       {tab === "transactions" ? <Transactions data={data} /> : null}
+      {tab === "reports" ? <Reports data={data} /> : null}
       {tab === "settings" ? <BudgetSettings settings={data.settings} onSave={(settings) => { saveSettings(settings); setTab("home"); }} /> : null}
 
       <div className="fixed inset-x-0 bottom-0 z-20 mx-auto max-w-3xl border-t border-clay/10 bg-white/92 px-3 pb-3 pt-2 shadow-[0_-10px_30px_rgba(96,54,22,0.12)] backdrop-blur sm:bottom-6 sm:rounded-b-[2rem]">
-        <nav className="grid grid-cols-4 gap-1">
+        <nav className="grid grid-cols-5 gap-1">
           {tabs.map((item) => {
             const active = item.key === tab;
             return (

@@ -50,6 +50,7 @@ export const emptyBudgetData: BudgetData = {
     targetSpending: 0,
     categoryBudgets: emptyCategoryBudgets
   },
+  monthlySettings: {},
   transactions: []
 };
 
@@ -59,6 +60,7 @@ export const mockBudgetData: BudgetData = {
     targetSpending: 1700000,
     categoryBudgets: defaultCategoryBudgets
   },
+  monthlySettings: {},
   transactions: [
     {
       id: "mock-1",

@@ -29,6 +29,7 @@ export type BudgetSettings = {
 
 export type BudgetData = {
   settings: BudgetSettings;
+  monthlySettings?: Record<string, BudgetSettings>;
   transactions: Transaction[];
 };
 

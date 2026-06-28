@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { categories, paymentMethods } from "@/data/mockData";
 import { CategoryKey, PaymentMethod, Transaction } from "@/types/budget";
 import { Card, Field, Input, Label, PrimaryButton, Select, Textarea } from "@/components/ui";
+import { formatMoneyInput, parseMoneyInput } from "@/utils/budget";
 
 function todayString() {
   return new Date().toISOString().slice(0, 10);
@@ -20,7 +21,7 @@ export function AddExpense({ onAdd }: { onAdd: (transaction: Omit<Transaction, "
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const numericAmount = Number(amount);
+    const numericAmount = parseMoneyInput(amount);
     if (!numericAmount || numericAmount <= 0) return;
 
     onAdd({
@@ -47,7 +48,13 @@ export function AddExpense({ onAdd }: { onAdd: (transaction: Omit<Transaction, "
         <form className="space-y-4" onSubmit={handleSubmit}>
           <Field>
             <Label>금액</Label>
-            <Input inputMode="numeric" min={0} placeholder="예: 12000" type="number" value={amount} onChange={(event) => setAmount(event.target.value)} />
+            <Input
+              inputMode="numeric"
+              placeholder="예: 12,000"
+              type="text"
+              value={amount}
+              onChange={(event) => setAmount(formatMoneyInput(event.target.value))}
+            />
           </Field>
           <Field>
             <Label>카테고리</Label>

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { emptyBudgetData } from "@/data/mockData";
 import { BudgetData, BudgetSettings, Transaction } from "@/types/budget";
-import { calculateBudget, normalizeSettings } from "@/utils/budget";
+import { calculateBudget, getCurrentMonthKey, normalizeSettings } from "@/utils/budget";
 
 const STORAGE_KEY = "warm-budget-data-v2";
 
@@ -15,8 +15,23 @@ function readStoredData(): BudgetData {
     if (!raw) return emptyBudgetData;
     const parsed = JSON.parse(raw) as BudgetData;
 
+    const settings = normalizeSettings(parsed.settings ?? emptyBudgetData.settings);
+    const currentMonthKey = getCurrentMonthKey();
+    const parsedMonthlySettings = parsed.monthlySettings ?? {};
+    const monthlySettings = Object.fromEntries(
+      Object.entries(parsedMonthlySettings).map(([monthKey, monthSettings]) => [
+        monthKey,
+        normalizeSettings(monthSettings as BudgetSettings)
+      ])
+    );
+
+    if (!monthlySettings[currentMonthKey]) {
+      monthlySettings[currentMonthKey] = settings;
+    }
+
     return {
-      settings: normalizeSettings(parsed.settings ?? emptyBudgetData.settings),
+      settings: monthlySettings[currentMonthKey],
+      monthlySettings,
       transactions: Array.isArray(parsed.transactions) ? parsed.transactions : []
     };
   } catch {
@@ -55,9 +70,16 @@ export function useBudgetStore() {
   }
 
   function saveSettings(settings: BudgetSettings) {
+    const normalized = normalizeSettings(settings);
+    const currentMonthKey = getCurrentMonthKey();
+
     setData((current) => ({
       ...current,
-      settings: normalizeSettings(settings)
+      settings: normalized,
+      monthlySettings: {
+        ...(current.monthlySettings ?? {}),
+        [currentMonthKey]: normalized
+      }
     }));
   }
 

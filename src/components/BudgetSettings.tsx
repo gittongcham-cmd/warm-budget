@@ -5,7 +5,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { categories } from "@/data/mockData";
 import { BudgetSettings as BudgetSettingsType, CategoryKey } from "@/types/budget";
 import { Card, Field, Input, Label, PrimaryButton } from "@/components/ui";
-import { formatCurrency } from "@/utils/budget";
+import { formatCurrency, formatMoneyInput, parseMoneyInput } from "@/utils/budget";
 
 export function BudgetSettings({
   settings,
@@ -26,7 +26,7 @@ export function BudgetSettings({
       ...current,
       categoryBudgets: {
         ...current.categoryBudgets,
-        [key]: Number(value)
+        [key]: parseMoneyInput(value)
       }
     }));
   }
@@ -62,22 +62,20 @@ export function BudgetSettings({
               <Label>이번 달 수입</Label>
               <Input
                 inputMode="numeric"
-                min={0}
-                type="number"
-                value={form.monthlyIncome || ""}
-                placeholder="예: 3000000"
-                onChange={(event) => setForm((current) => ({ ...current, monthlyIncome: Number(event.target.value) }))}
+                type="text"
+                value={formatMoneyInput(form.monthlyIncome)}
+                placeholder="예: 3,000,000"
+                onChange={(event) => setForm((current) => ({ ...current, monthlyIncome: parseMoneyInput(event.target.value) }))}
               />
             </Field>
             <Field>
               <Label>목표 지출액</Label>
               <Input
                 inputMode="numeric"
-                min={0}
-                type="number"
-                value={form.targetSpending || ""}
-                placeholder="예: 1000000"
-                onChange={(event) => setForm((current) => ({ ...current, targetSpending: Number(event.target.value) }))}
+                type="text"
+                value={formatMoneyInput(form.targetSpending)}
+                placeholder="예: 1,000,000"
+                onChange={(event) => setForm((current) => ({ ...current, targetSpending: parseMoneyInput(event.target.value) }))}
               />
             </Field>
           </div>
@@ -87,7 +85,7 @@ export function BudgetSettings({
             <div className="mb-3 rounded-lg bg-cream p-3">
               <div className="grid grid-cols-3 gap-2 text-center">
                 <BudgetSummary label="목표" value={formatCurrency(form.targetSpending)} />
-                <BudgetSummary label="배분" value={formatCurrency(allocatedBudget)} />
+                <BudgetSummary label={`배분 ${allocationRate.toFixed(1)}%`} value={formatCurrency(allocatedBudget)} />
                 <BudgetSummary label={remainingAllocation < 0 ? "초과" : "남음"} value={formatCurrency(Math.abs(remainingAllocation))} />
               </div>
               <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
@@ -115,9 +113,8 @@ export function BudgetSettings({
                       </div>
                       <Input
                         inputMode="numeric"
-                        min={0}
-                        type="number"
-                        value={categoryBudget || ""}
+                        type="text"
+                        value={formatMoneyInput(categoryBudget)}
                         placeholder="0"
                         onChange={(event) => updateCategory(category.key, event.target.value)}
                         className="bg-white"
