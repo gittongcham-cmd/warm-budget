@@ -102,23 +102,34 @@ export function BudgetSettings({
               </p>
             </div>
             <div className="space-y-3">
-              {categories.map((category) => (
-                <div key={category.key} className="grid grid-cols-[1fr_minmax(130px,1.2fr)] items-center gap-3 rounded-lg bg-cream p-3">
-                  <div className="flex min-w-0 items-center gap-2">
-                    <span className="h-3 w-3 rounded-full" style={{ backgroundColor: category.color }} />
-                    <span className="font-bold">{category.label}</span>
+              {categories.map((category) => {
+                const categoryBudget = form.categoryBudgets[category.key] || 0;
+                const categoryRate = form.targetSpending > 0 ? (categoryBudget / form.targetSpending) * 100 : 0;
+
+                return (
+                  <div key={category.key} className="rounded-lg bg-cream p-3">
+                    <div className="grid grid-cols-[1fr_minmax(130px,1.2fr)] items-center gap-3">
+                      <div className="flex min-w-0 items-center gap-2">
+                        <span className="h-3 w-3 rounded-full" style={{ backgroundColor: category.color }} />
+                        <span className="font-bold">{category.label}</span>
+                      </div>
+                      <Input
+                        inputMode="numeric"
+                        min={0}
+                        type="number"
+                        value={categoryBudget || ""}
+                        placeholder="0"
+                        onChange={(event) => updateCategory(category.key, event.target.value)}
+                        className="bg-white"
+                      />
+                    </div>
+                    <div className="mt-2 flex items-center justify-between gap-3 text-xs font-bold text-cocoa/55">
+                      <span>{categoryBudget > 0 ? formatCurrency(categoryBudget) : "아직 배분 전"}</span>
+                      <span>목표의 {categoryRate.toFixed(1)}%</span>
+                    </div>
                   </div>
-                  <Input
-                    inputMode="numeric"
-                    min={0}
-                    type="number"
-                    value={form.categoryBudgets[category.key] || ""}
-                    placeholder="0"
-                    onChange={(event) => updateCategory(category.key, event.target.value)}
-                    className="bg-white"
-                  />
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
