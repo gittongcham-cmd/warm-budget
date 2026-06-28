@@ -2,11 +2,11 @@
 
 export type BuddyMood = "happy" | "calm" | "worried" | "alert";
 
-const moodStyles: Record<BuddyMood, { cheek: string; mouth: string; eye: string }> = {
-  happy: { cheek: "#ffb1a1", mouth: "M32 45 Q40 53 48 45", eye: "M29 33 Q31 31 33 33" },
-  calm: { cheek: "#ffc1ad", mouth: "M33 46 Q40 50 47 46", eye: "M29 33 Q31 34 33 33" },
-  worried: { cheek: "#ffb3bd", mouth: "M34 49 Q40 45 46 49", eye: "M29 34 Q31 32 33 34" },
-  alert: { cheek: "#f67280", mouth: "M36 48 Q40 51 44 48", eye: "M29 31 L33 35" }
+const moodStyles: Record<BuddyMood, { cheek: string; mouth: string }> = {
+  happy: { cheek: "#ffb1a1", mouth: "M32 45 Q40 53 48 45" },
+  calm: { cheek: "#ffc1ad", mouth: "M33 46 Q40 50 47 46" },
+  worried: { cheek: "#ffb3bd", mouth: "M34 49 Q40 45 46 49" },
+  alert: { cheek: "#f67280", mouth: "M36 48 Q40 51 44 48" }
 };
 
 export function BudgetBuddy({
@@ -61,8 +61,17 @@ function CatFace({ mood, size }: { mood: BuddyMood; size: number }) {
           <path d="M55 27 L46 30" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" />
         </>
       ) : null}
-      <path d={style.eye} stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <path d={style.eye.replaceAll("29", "47").replaceAll("31", "49").replaceAll("33", "51")} stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
+      {mood === "alert" ? (
+        <>
+          <circle cx="31" cy="34" r="2.8" fill="#5a4037" />
+          <circle cx="49" cy="34" r="2.8" fill="#5a4037" />
+        </>
+      ) : (
+        <>
+          <path d="M28 34 Q31 31 34 34" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
+          <path d="M46 34 Q49 31 52 34" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
+        </>
+      )}
       <path d="M39 39 Q40 41 41 39" stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
       <path d={style.mouth} stroke="#5a4037" strokeWidth="3" strokeLinecap="round" fill="none" />
       <path d="M15 42 H5" stroke="#5a4037" strokeWidth="2" strokeLinecap="round" opacity="0.55" />

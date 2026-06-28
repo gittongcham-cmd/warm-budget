@@ -19,6 +19,14 @@ export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: stri
 
   return (
     <div className="space-y-4 pb-28">
+      <div className="px-4 pt-4">
+        <BudgetBuddy
+          className="rounded-[1.5rem] bg-peach/45 p-3 ring-1 ring-white/70"
+          mood={getBudgetBuddyMood(summary.usageRate)}
+          message={`안녕하세요, 모아냥이에요. ${getBudgetBuddyMessage(summary.usageRate, summary.remainingBudget)}`}
+        />
+      </div>
+
       <div className="mx-4 mt-4 rounded-[1.75rem] bg-gradient-to-br from-clay via-persimmon to-butter px-5 pb-6 pt-6 text-white shadow-warm">
         <p className="text-sm font-bold text-white/80">{getMonthLabel(monthKey)} 살림 노트</p>
         <div className="mt-3 flex items-end justify-between gap-4">
@@ -37,13 +45,6 @@ export function Dashboard({ data, monthKey }: { data: BudgetData; monthKey: stri
           </div>
           <ProgressBar value={summary.usageRate} color="bg-white" />
         </div>
-      </div>
-
-      <div className="px-4">
-        <BudgetBuddy
-          mood={getBudgetBuddyMood(summary.usageRate)}
-          message={getBudgetBuddyMessage(summary.usageRate, summary.remainingBudget)}
-        />
       </div>
 
       <div className="grid grid-cols-2 gap-3 px-4">
