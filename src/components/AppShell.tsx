@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Home, List, PlusCircle, Settings } from "lucide-react";
+import { Home, List, PlusCircle, RotateCcw, Settings } from "lucide-react";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { AddExpense } from "@/components/AddExpense";
@@ -20,7 +20,7 @@ const tabs: { key: Tab; label: string; icon: ReactNode }[] = [
 
 export function AppShell() {
   const [tab, setTab] = useState<Tab>("home");
-  const { data, addTransaction, saveSettings, resetMockData } = useBudgetStore();
+  const { data, addTransaction, saveSettings, resetData } = useBudgetStore();
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl bg-cream text-ink sm:my-6 sm:min-h-[calc(100vh-3rem)] sm:overflow-hidden sm:rounded-[2rem] sm:ring-1 sm:ring-clay/10">
@@ -49,9 +49,9 @@ export function AppShell() {
             );
           })}
         </nav>
-        <button type="button" onClick={resetMockData} className="mx-auto mt-1 flex items-center gap-1 text-[11px] font-bold text-cocoa/45">
-          <BarChart3 size={12} />
-          mock data 초기화
+        <button type="button" onClick={resetData} className="mx-auto mt-1 flex items-center gap-1 text-[11px] font-bold text-cocoa/45">
+          <RotateCcw size={12} />
+          내 데이터 초기화
         </button>
       </div>
     </main>

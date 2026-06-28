@@ -33,6 +33,26 @@ export const defaultCategoryBudgets: Record<CategoryKey, number> = {
   etc: 150000
 };
 
+export const emptyCategoryBudgets: Record<CategoryKey, number> = {
+  food: 0,
+  cafe: 0,
+  transport: 0,
+  shopping: 0,
+  living: 0,
+  health: 0,
+  culture: 0,
+  etc: 0
+};
+
+export const emptyBudgetData: BudgetData = {
+  settings: {
+    monthlyIncome: 0,
+    targetSpending: 0,
+    categoryBudgets: emptyCategoryBudgets
+  },
+  transactions: []
+};
+
 export const mockBudgetData: BudgetData = {
   settings: {
     monthlyIncome: 3600000,

@@ -1,31 +1,31 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { mockBudgetData } from "@/data/mockData";
+import { emptyBudgetData } from "@/data/mockData";
 import { BudgetData, BudgetSettings, Transaction } from "@/types/budget";
 import { calculateBudget, normalizeSettings } from "@/utils/budget";
 
 const STORAGE_KEY = "warm-budget-data-v1";
 
 function readStoredData(): BudgetData {
-  if (typeof window === "undefined") return mockBudgetData;
+  if (typeof window === "undefined") return emptyBudgetData;
 
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return mockBudgetData;
+    if (!raw) return emptyBudgetData;
     const parsed = JSON.parse(raw) as BudgetData;
 
     return {
-      settings: normalizeSettings(parsed.settings ?? mockBudgetData.settings),
-      transactions: Array.isArray(parsed.transactions) ? parsed.transactions : mockBudgetData.transactions
+      settings: normalizeSettings(parsed.settings ?? emptyBudgetData.settings),
+      transactions: Array.isArray(parsed.transactions) ? parsed.transactions : []
     };
   } catch {
-    return mockBudgetData;
+    return emptyBudgetData;
   }
 }
 
 export function useBudgetStore() {
-  const [data, setData] = useState<BudgetData>(mockBudgetData);
+  const [data, setData] = useState<BudgetData>(emptyBudgetData);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -61,8 +61,11 @@ export function useBudgetStore() {
     }));
   }
 
-  function resetMockData() {
-    setData(mockBudgetData);
+  function resetData() {
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(STORAGE_KEY);
+    }
+    setData(emptyBudgetData);
   }
 
   return {
@@ -71,6 +74,6 @@ export function useBudgetStore() {
     ready,
     addTransaction,
     saveSettings,
-    resetMockData
+    resetData
   };
 }
